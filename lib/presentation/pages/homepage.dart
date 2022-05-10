@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_cars/blocs/home/nav/states.dart';
-import 'package:green_cars/presentation/pages/home/screens/homescreen.dart';
+import 'package:green_cars/presentation/pages/home/screens/home/homescreen.dart';
 import 'package:green_cars/presentation/pages/home/screens/cars/profilescreen.dart';
 import '../../blocs/home/nav/navigation_cubit.dart';
 import 'home/elements/bars_and_drawers.dart';

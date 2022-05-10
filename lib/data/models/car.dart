@@ -1,7 +1,6 @@
 class Car  {
   final String id;
   String name;
-  int percentage=100;//Every car is charged when initialized
   int kwh;
 
   Car({

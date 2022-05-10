@@ -17,10 +17,13 @@ class CarRepository {
     return carList;
   }
 
-  List<Car> updateCarPercentage(int percent, String id) {
+  List<Car> updateCar(var value, int what, String id) {
     for (Car element in carList) {
       if (element.id == id) {
-        element.percentage = percent;
+        if (what == 0)
+          element.name = value;
+        else if (what == 1)
+          element.kwh = value;
       }
     }
     return carList;

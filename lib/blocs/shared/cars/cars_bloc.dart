@@ -21,10 +21,10 @@ class CarsBloc extends HydratedBloc<CarsEvent, CarsState> {
       final updatedCarsList = CarsRepository.removeCar(event.id);
       emit(CarsLoaded(updatedCarsList));
     });
-    on<UpdateCarsState>((event, emit) async {
+    on<UpdateCars>((event, emit) async {
       emit(CarsLoading());
       final updatedCarsList =
-          CarsRepository.updateCarPercentage(event.percent, event.id);
+          CarsRepository.updateCar(event.value, event.what, event.id);
       emit(CarsLoaded(updatedCarsList));
     });
   }

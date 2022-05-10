@@ -25,12 +25,13 @@ class RemoveCars extends CarsEvent {
   List<Object> get props => [id];
 }
 
-class UpdateCarsState extends CarsEvent {
-  final int percent;
+class UpdateCars extends CarsEvent {
+  final int what;
   final String id;
+  final String value;
 
-  const UpdateCarsState(this.percent, this.id);
+  const UpdateCars(this.value, this.what, this.id);
 
   @override
-  List<Object> get props => [percent];
+  List<Object> get props => [id];
 }

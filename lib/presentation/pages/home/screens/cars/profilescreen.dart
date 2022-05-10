@@ -4,7 +4,6 @@ import 'package:green_cars/blocs/shared/cars/cars_bloc.dart';
 import 'package:green_cars/data/models/car.dart';
 import 'package:uuid/uuid.dart';
 
-import 'elements/add_car.dart';
 
 class CarsHome extends StatelessWidget {
   const CarsHome({Key? key}) : super(key: key);
