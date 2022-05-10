@@ -34,8 +34,8 @@ dependencies:
   build_runner: ^1.1.2
   path_provider: ^2.0.8
   uuid: 3.0.6
-  flutter_services_binding:
-  google_maps_flutter: ^0.5.27+1
+  flutter_services_binding: ^0.1.0
+  google_maps_flutter: ^2.1.5
   path: ^1.8.0
   equatable: ^2.0.3
   # The following adds the Cupertino Icons font to your application.

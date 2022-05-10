@@ -7,24 +7,24 @@ part 'cars_event.dart';
 part 'cars_state.dart';
 
 class CarsBloc extends HydratedBloc<CarsEvent, CarsState> {
-  final CarRepository CarsRepository;
+  final CarRepository carsRepository;
 
-  CarsBloc(this.CarsRepository) : super(CarsLoaded(CarsRepository.carList)) {
+  CarsBloc(this.carsRepository) : super(CarsLoaded(carsRepository.carList)) {
     on<AddCars>((event, emit) async {
       emit(CarsLoading());
       final updatedCarsList =
-          CarsRepository.addCar(event.carName, event.carKwh);
+          carsRepository.addCar(event.carName, event.carKwh);
       emit(CarsLoaded(updatedCarsList));
     });
     on<RemoveCars>((event, emit) {
       emit(CarsLoading());
-      final updatedCarsList = CarsRepository.removeCar(event.id);
+      final updatedCarsList = carsRepository.removeCar(event.id);
       emit(CarsLoaded(updatedCarsList));
     });
     on<UpdateCars>((event, emit) async {
       emit(CarsLoading());
       final updatedCarsList =
-          CarsRepository.updateCar(event.value, event.what, event.id);
+          carsRepository.updateCar(event.value, event.what, event.id);
       emit(CarsLoaded(updatedCarsList));
     });
   }
@@ -36,7 +36,7 @@ class CarsBloc extends HydratedBloc<CarsEvent, CarsState> {
           .map((e) => Car.fromJson(e as Map<String, dynamic>))
           .toList();
 
-      CarsRepository.carList = listOfCars;
+      carsRepository.carList = listOfCars;
       return CarsLoaded(listOfCars);
     } catch (e) {
       return null;

@@ -6,7 +6,7 @@ class CarRepository {
   final uuid = const Uuid();
   List<Car> carList = [];
 
-  List<Car> addCar(String carName,int carKwh) {
+  List<Car> addCar(String carName, int carKwh) {
     final car = Car(id: uuid.v4(), kwh: carKwh, name: carName);
     carList.add(car);
     return carList;
@@ -20,10 +20,11 @@ class CarRepository {
   List<Car> updateCar(var value, int what, String id) {
     for (Car element in carList) {
       if (element.id == id) {
-        if (what == 0)
+        if (what == 0) {
           element.name = value;
-        else if (what == 1)
+        } else if (what == 1) {
           element.kwh = value;
+        }
       }
     }
     return carList;

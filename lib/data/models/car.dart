@@ -1,4 +1,4 @@
-class Car  {
+class Car {
   final String id;
   String name;
   int kwh;
@@ -9,18 +9,16 @@ class Car  {
     required this.name,
   });
 
-
   Car.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         kwh = json['kwh'];
 
-  String get cars => this.name;
+  String get cars => name;
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'kwh': kwh,
-  };
-
+        'id': id,
+        'name': name,
+        'kwh': kwh,
+      };
 }

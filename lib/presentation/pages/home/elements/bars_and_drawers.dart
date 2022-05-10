@@ -5,12 +5,13 @@ import 'package:green_cars/blocs/home/nav/states.dart';
 
 PreferredSizeWidget homeAppbar({required Text title}) {
   return AppBar(
+    surfaceTintColor: Colors.white70,
     elevation: 30,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(40), bottomLeft: Radius.circular(40)),
+          bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
     ),
-    toolbarHeight: 80,
+    toolbarHeight: 60,
     foregroundColor: Colors.black,
     backgroundColor: Colors.white70,
     title: title,
@@ -30,9 +31,10 @@ Widget get bottomNavigationBar {
       return Container(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                topRight: Radius.circular(60), topLeft: Radius.circular(60)),
             boxShadow: [
-              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+              BoxShadow(
+                  color: Colors.black38, spreadRadius: 30, blurRadius: 100),
             ],
           ),
           child: ClipRRect(

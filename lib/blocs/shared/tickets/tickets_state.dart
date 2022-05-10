@@ -10,15 +10,17 @@ abstract class TicketsState extends Equatable {
 }
 
 class TicketsInitial extends TicketsState {
+  @override
   final Ticket ticket;
 
-  TicketsInitial(this.ticket);
+  const TicketsInitial(this.ticket);
 
+  @override
   List<Object> get props => [ticket];
-
 }
 
 class TicketsUpdated extends TicketsState {
+  @override
   final Ticket ticket;
 
   const TicketsUpdated(this.ticket);
@@ -26,13 +28,13 @@ class TicketsUpdated extends TicketsState {
   @override
   List<Object> get props => [ticket];
 
-  @override
   Map<String, dynamic> toJson() {
     return {'Ticket': ticket};
   }
 }
 
-class TicketRefreshing extends TicketsState{
+class TicketRefreshing extends TicketsState {
+  @override
   final Ticket ticket;
 
   const TicketRefreshing(this.ticket);
@@ -40,7 +42,6 @@ class TicketRefreshing extends TicketsState{
   @override
   List<Object> get props => [ticket];
 
-  @override
   Map<String, dynamic> toJson() {
     return {'Ticket': ticket};
   }
