@@ -20,8 +20,9 @@ class CarsHome extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) => AddCarDialog(
-                    carNameController: _carNameController,
-                    carKwhController: _carKwhController));
+                      carNameController: _carNameController,
+                      carKwhController: _carKwhController,
+                    ));
           },
           child: const Icon(Icons.add),
         ),

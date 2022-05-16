@@ -26,7 +26,6 @@ class BookingWidget extends StatelessWidget {
 // ignore: must_be_immutable
 class WithCarsWidget extends StatelessWidget {
   CarsLoaded stateOfCars;
-
   final _carNameController = TextEditingController();
   final _carKwhController = TextEditingController();
 
@@ -122,12 +121,14 @@ class BookingWithNocar extends StatelessWidget {
                     onPressed: () {
                       showDialog(
                           context: context,
-                          builder: (context) => SingleChildScrollView(
+                          builder: (context) => Center(
+                                  child: SingleChildScrollView(
+                                padding: const EdgeInsets.all(20),
                                 child: AddCarDialog(
                                   carNameController: carNameController,
                                   carKwhController: carKwhController,
                                 ),
-                              ));
+                              )));
                     },
                     child: const Text("Add a car please"),
                   )

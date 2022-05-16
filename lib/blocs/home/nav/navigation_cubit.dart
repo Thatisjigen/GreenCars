@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:green_cars/blocs/home/nav/states.dart';
 import 'package:equatable/equatable.dart';
+import 'package:green_cars/blocs/home/nav/states.dart';
 
 part 'navigation_state.dart';
 

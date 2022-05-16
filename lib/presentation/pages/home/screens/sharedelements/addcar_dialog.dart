@@ -6,16 +6,16 @@ import 'package:green_cars/blocs/shared/cars/cars_bloc.dart';
 class AddCarDialog extends StatelessWidget {
   TextEditingController carNameController;
   TextEditingController carKwhController;
-  AddCarDialog(
-      {Key? key,
-      required this.carNameController,
-      required this.carKwhController})
-      : super(key: key);
+  AddCarDialog({
+    Key? key,
+    required this.carNameController,
+    required this.carKwhController,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 10,
-      insetPadding: const EdgeInsets.symmetric(vertical: 330, horizontal: 20),
+      insetPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
