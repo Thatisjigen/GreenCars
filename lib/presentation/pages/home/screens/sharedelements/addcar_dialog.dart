@@ -5,11 +5,15 @@ import 'package:green_cars/blocs/shared/cars/cars_bloc.dart';
 // ignore: must_be_immutable
 class AddCarDialog extends StatelessWidget {
   TextEditingController carNameController;
-  TextEditingController carKwhController;
+  TextEditingController carpMaxACController;
+  TextEditingController carpMaxDCController;
+  TextEditingController carEfficiencyController;
   AddCarDialog({
     Key? key,
     required this.carNameController,
-    required this.carKwhController,
+    required this.carpMaxACController,
+    required this.carpMaxDCController,
+    required this.carEfficiencyController,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -27,16 +31,30 @@ class AddCarDialog extends StatelessWidget {
             controller: carNameController,
           ),
           const Text(
-            "How much kwh is it powerful?",
+            "How much pMaxAC is it powerful?",
             textScaleFactor: 1.2,
           ),
           TextField(
-            controller: carKwhController,
+            controller: carpMaxACController,
+          ),
+          const Text(
+            "How much pMaxDC is it powerful?",//Todo: fix the string
+            textScaleFactor: 1.2,
+          ),
+          TextField(
+            controller: carpMaxDCController,
+          ),
+          const Text(
+            "How much is it efficient?",
+            textScaleFactor: 1.2,
+          ),
+          TextField(
+            controller: carEfficiencyController,
           ),
           ElevatedButton(
               onPressed: () {
                 context.read<CarsBloc>().add(AddCars(
-                    carNameController.text, int.parse(carKwhController.text)));
+                    carNameController.text, int.parse(carpMaxACController.text),int.parse(carpMaxDCController.text),int.parse(carEfficiencyController.text)));
                 Navigator.of(context).pop(context);
               },
               child: const Text('SAVE'))

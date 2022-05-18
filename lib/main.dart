@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_cars/blocs/shared/cars/cars_bloc.dart';
+import 'package:green_cars/blocs/shared/tickets/tickets_bloc.dart';
+import 'package:green_cars/data/models/tickets.dart';
 import 'package:green_cars/data/repository/car/car.dart';
 import 'package:green_cars/presentation/pages/homepage.dart';
 import 'package:green_cars/presentation/theme/style.dart';
@@ -16,13 +18,14 @@ void main() async {
   );
 
   HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
+    () => runApp(MyApp()),
     storage: storage,
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final Ticket _ticket = Ticket();
 
   // This widget is the root of your application.
   @override
@@ -35,6 +38,8 @@ class MyApp extends StatelessWidget {
           create: (context) => NavigationCubit(), //create the cubit itself
         ),
         BlocProvider<CarsBloc>(create: (context) => CarsBloc(carStorageRepo)),
+        BlocProvider<TicketsBloc>(create: (context) => TicketsBloc(_ticket),
+    ),
       ],
       child: MaterialApp(
         title: 'GreenCars',

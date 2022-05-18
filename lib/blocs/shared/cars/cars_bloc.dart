@@ -13,7 +13,7 @@ class CarsBloc extends HydratedBloc<CarsEvent, CarsState> {
     on<AddCars>((event, emit) async {
       emit(CarsLoading());
       final updatedCarsList =
-          carsRepository.addCar(event.carName, event.carKwh);
+          carsRepository.addCar(event.carName, event.carPMaxAC, event.carPMaxDC, event.carEfficiency);
       emit(CarsLoaded(updatedCarsList));
     });
     on<RemoveCars>((event, emit) {

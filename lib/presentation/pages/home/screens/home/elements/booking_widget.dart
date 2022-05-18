@@ -12,6 +12,7 @@ class BookingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CarsBloc, CarsState>(builder: (context, carsState) {
+      print(context.toString());
       //CarState as a State
       if (carsState is CarsLoaded) {
         return WithCarsWidget(
@@ -27,7 +28,9 @@ class BookingWidget extends StatelessWidget {
 class WithCarsWidget extends StatelessWidget {
   CarsLoaded stateOfCars;
   final _carNameController = TextEditingController();
-  final _carKwhController = TextEditingController();
+  final _carpMaxDCController = TextEditingController();
+  final _carpMaxACController = TextEditingController();
+  final _carEfficiencyController = TextEditingController();
 
   WithCarsWidget({Key? key, required this.stateOfCars}) : super(key: key);
 
@@ -66,7 +69,7 @@ class WithCarsWidget extends StatelessWidget {
                               return DropdownMenuItem<Car>(
                                 value: value,
                                 child: Text(
-                                    value.name + ' ' + value.kwh.toString()),
+                                    value.name + ' ' + value.name,)//todo: implement a readable list (not here, in the car page)
                               );
                             }).toList()),
                       ])),
@@ -75,10 +78,12 @@ class WithCarsWidget extends StatelessWidget {
       } else {
         return SingleChildScrollView(
           child: BookingWithNocar(
-            carKwhController: _carKwhController,
             carNameController: _carNameController,
             state: state,
             carState: stateOfCars,
+            carEfficiencyController: _carEfficiencyController,
+            carpMaxACController: _carpMaxACController,
+            carpMaxDCController: _carpMaxDCController,
           ),
         );
       }
@@ -89,14 +94,19 @@ class WithCarsWidget extends StatelessWidget {
 class BookingWithNocar extends StatelessWidget {
   final CarsLoaded carState;
   final TextEditingController carNameController;
-  final TextEditingController carKwhController;
+  final TextEditingController carpMaxDCController;
+  final TextEditingController carpMaxACController;
+  final TextEditingController carEfficiencyController;
+
   final TicketsState state;
   const BookingWithNocar(
       {Key? key,
       required this.state,
-      required this.carKwhController,
-      required this.carNameController,
-      required this.carState})
+      required this.carState,
+        required this.carNameController,
+        required this.carpMaxDCController,
+        required this.carpMaxACController,
+        required this.carEfficiencyController})
       : super(key: key);
 
   @override
@@ -126,7 +136,9 @@ class BookingWithNocar extends StatelessWidget {
                                 padding: const EdgeInsets.all(20),
                                 child: AddCarDialog(
                                   carNameController: carNameController,
-                                  carKwhController: carKwhController,
+                                  carEfficiencyController: carEfficiencyController,
+                                  carpMaxACController: carpMaxACController,
+                                  carpMaxDCController: carpMaxDCController,
                                 ),
                               )));
                     },

@@ -6,8 +6,8 @@ class CarRepository {
   final uuid = const Uuid();
   List<Car> carList = [];
 
-  List<Car> addCar(String carName, int carKwh) {
-    final car = Car(id: uuid.v4(), kwh: carKwh, name: carName);
+  List<Car> addCar(String carName, int carPMaxAC, int carPMaxDC, int carEfficiency) {
+    final car = Car(id: uuid.v4(), pMaxAC: carPMaxAC, name: carName, pMaxDC: carPMaxDC, efficiency: carEfficiency);
     carList.add(car);
     return carList;
   }
@@ -23,7 +23,7 @@ class CarRepository {
         if (what == 0) {
           element.name = value;
         } else if (what == 1) {
-          element.kwh = value;
+          element.pMaxAC = value;
         }
       }
     }

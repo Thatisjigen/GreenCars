@@ -10,8 +10,9 @@ class CarsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _carNameController = TextEditingController();
-    final _carKwhController = TextEditingController();
-
+    final _carpMaxACController = TextEditingController();
+    final _carpMaxDCController = TextEditingController();
+    final _carEfficiencyController = TextEditingController();
     return Center(
       child: Column(children: [
         const CarsList(),
@@ -21,7 +22,9 @@ class CarsHome extends StatelessWidget {
                 context: context,
                 builder: (context) => AddCarDialog(
                       carNameController: _carNameController,
-                      carKwhController: _carKwhController,
+                      carpMaxACController: _carpMaxACController,
+                      carpMaxDCController: _carpMaxDCController,
+                      carEfficiencyController: _carEfficiencyController,
                     ));
           },
           child: const Icon(Icons.add),
@@ -67,7 +70,7 @@ class CarsList extends StatelessWidget {
     return Row(
       children: [
         Text(car.name),
-        Text(car.kwh.toString()),
+        Text(car.pMaxAC.toString()),
       ],
     );
   }

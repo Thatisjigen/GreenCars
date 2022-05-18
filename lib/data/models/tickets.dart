@@ -6,8 +6,10 @@ class Ticket {
   int maxMeters;
   bool green;
   double lat, lon;
+  int targetPercentage;
+  int durationMinutes;
   // ignore: prefer_typing_uninitialized_variables
-  var date;
+  DateTime date;
 
   Ticket._privateConstructor({
     required this.percentage,
@@ -17,16 +19,20 @@ class Ticket {
     required this.lat,
     required this.lon,
     required this.date,
+    required this.durationMinutes,
+    required this.targetPercentage
   });
 
-  static final Ticket _instance = Ticket._privateConstructor(
+  static final Ticket _instance = Ticket._privateConstructor(//make it a singleton using a dumb instance with non valid values
     percentage: 0,
-    car: Car(id: "-1", name: "default", kwh: 100),
+    car: Car(id: "-1", name: "default", pMaxAC: -1, pMaxDC: -1, efficiency: -1),
     maxMeters: 0,
     green: false,
     lat: -1,
     lon: -1,
-    date: "20/12/20 14:30",
+    date: DateTime.now(),
+    durationMinutes: 10,
+    targetPercentage: -1,
   );
 
   factory Ticket() {
@@ -39,7 +45,10 @@ class Ticket {
         maxMeters = json['maxMeter'],
         green = json['green'],
         lat = json['lat'],
-        lon = json['lon'];
+        lon = json['lon'],
+        date = json['date'],
+        durationMinutes = json['durationMinutes'],
+        targetPercentage = json['targetPercentage'];
 
   Map<String, dynamic> toJson() => {
         'percentage': percentage,
@@ -48,7 +57,9 @@ class Ticket {
         'green': green,
         'lat': lat,
         'lon': lon,
-      };
+        'durationMinutes' : durationMinutes,
+        'targetPercentage' : targetPercentage,
+};
 
   updateTicket(var value, int what) {
     switch (what) {
@@ -69,6 +80,15 @@ class Ticket {
         break;
       case (5):
         lon = value;
+        break;
+      case (7):
+        date = value;
+        break;
+      case (8):
+        durationMinutes = value;
+        break;
+      case (9):
+        targetPercentage = value;
         break;
       default:
         return;
