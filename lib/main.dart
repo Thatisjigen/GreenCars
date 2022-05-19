@@ -38,8 +38,9 @@ class MyApp extends StatelessWidget {
           create: (context) => NavigationCubit(), //create the cubit itself
         ),
         BlocProvider<CarsBloc>(create: (context) => CarsBloc(carStorageRepo)),
-        BlocProvider<TicketsBloc>(create: (context) => TicketsBloc(_ticket),
-    ),
+        BlocProvider<TicketsBloc>(
+          create: (context) => TicketsBloc(_ticket),
+        ),
       ],
       child: MaterialApp(
         title: 'GreenCars',

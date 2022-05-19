@@ -6,8 +6,14 @@ class CarRepository {
   final uuid = const Uuid();
   List<Car> carList = [];
 
-  List<Car> addCar(String carName, int carPMaxAC, int carPMaxDC, int carEfficiency) {
-    final car = Car(id: uuid.v4(), pMaxAC: carPMaxAC, name: carName, pMaxDC: carPMaxDC, efficiency: carEfficiency);
+  List<Car> addCar(
+      String carName, int carPMaxAC, int carPMaxDC, int carEfficiency) {
+    final car = Car(
+        id: uuid.v4(),
+        pMaxAC: carPMaxAC,
+        name: carName,
+        pMaxDC: carPMaxDC,
+        efficiency: carEfficiency);
     carList.add(car);
     return carList;
   }

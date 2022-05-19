@@ -38,7 +38,7 @@ class AddCarDialog extends StatelessWidget {
             controller: carpMaxACController,
           ),
           const Text(
-            "How much pMaxDC is it powerful?",//Todo: fix the string
+            "How much pMaxDC is it powerful?", //Todo: fix the string
             textScaleFactor: 1.2,
           ),
           TextField(
@@ -54,7 +54,10 @@ class AddCarDialog extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 context.read<CarsBloc>().add(AddCars(
-                    carNameController.text, int.parse(carpMaxACController.text),int.parse(carpMaxDCController.text),int.parse(carEfficiencyController.text)));
+                    carNameController.text,
+                    int.parse(carpMaxACController.text),
+                    int.parse(carpMaxDCController.text),
+                    int.parse(carEfficiencyController.text)));
                 Navigator.of(context).pop(context);
               },
               child: const Text('SAVE'))

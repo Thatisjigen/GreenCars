@@ -14,19 +14,17 @@ class AddDetailsDialog extends StatelessWidget {
     print("okOk");
     var ticket = BlocProvider.of<TicketsBloc>(context).state.ticket;
 
-    return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state){
+    return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state) {
       return Dialog(
         elevation: 10,
         insetPadding: const EdgeInsets.symmetric(horizontal: 60),
-        child:
-        Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50),
-              child:
-              DateTimeFormField(
+              child: DateTimeFormField(
                 initialDate: DateTime.now(),
                 lastDate: convertDate(DateTime.now()),
                 decoration: InputDecoration(
@@ -53,25 +51,16 @@ class AddDetailsDialog extends StatelessWidget {
               activeColor: Colors.green,
               inactiveColor: Colors.green.shade300,
               thumbColor: Colors.green,
-              label: ticket
-                  .durationMinutes
-                  .toString(),
+              label: ticket.durationMinutes.toString(),
               //todo: is it working? :(
               divisions: 179,
               min: 10.0,
               max: 180.0,
-              onChanged: (value) =>
-              {
-                context
-                    .read<TicketsBloc>()
-                    .add(UpdateTicket(value.toInt(), 8)),
-                print(ticket
-                    .durationMinutes
-                    .toDouble())
+              onChanged: (value) => {
+                context.read<TicketsBloc>().add(UpdateTicket(value.toInt(), 8)),
+                print(ticket.durationMinutes.toDouble())
               },
-              value: ticket
-                  .durationMinutes
-                  .toDouble(),
+              value: ticket.durationMinutes.toDouble(),
             ),
             ElevatedButton(
                 onPressed: () {},
@@ -79,20 +68,11 @@ class AddDetailsDialog extends StatelessWidget {
           ],
         ),
       );
+    });
+  }
 
-    }
-    );
-    }
-
-  DateTime convertDate(DateTime datetime) =>
-      DateTime(datetime
-          .add(const Duration(days: 60))
-          .year,
-          datetime
-              .add(const Duration(days: 60))
-              .month,
-          datetime
-              .add(const Duration(days: 60))
-              .day
-      );
+  DateTime convertDate(DateTime datetime) => DateTime(
+      datetime.add(const Duration(days: 60)).year,
+      datetime.add(const Duration(days: 60)).month,
+      datetime.add(const Duration(days: 60)).day);
 }

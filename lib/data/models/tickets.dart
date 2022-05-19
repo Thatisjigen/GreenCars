@@ -11,19 +11,19 @@ class Ticket {
   // ignore: prefer_typing_uninitialized_variables
   DateTime date;
 
-  Ticket._privateConstructor({
-    required this.percentage,
-    required this.car,
-    required this.maxMeters,
-    required this.green,
-    required this.lat,
-    required this.lon,
-    required this.date,
-    required this.durationMinutes,
-    required this.targetPercentage
-  });
+  Ticket._privateConstructor(
+      {required this.percentage,
+      required this.car,
+      required this.maxMeters,
+      required this.green,
+      required this.lat,
+      required this.lon,
+      required this.date,
+      required this.durationMinutes,
+      required this.targetPercentage});
 
-  static final Ticket _instance = Ticket._privateConstructor(//make it a singleton using a dumb instance with non valid values
+  static final Ticket _instance = Ticket._privateConstructor(
+    //make it a singleton using a dumb instance with non valid values
     percentage: 0,
     car: Car(id: "-1", name: "default", pMaxAC: -1, pMaxDC: -1, efficiency: -1),
     maxMeters: 0,
@@ -57,9 +57,9 @@ class Ticket {
         'green': green,
         'lat': lat,
         'lon': lon,
-        'durationMinutes' : durationMinutes,
-        'targetPercentage' : targetPercentage,
-};
+        'durationMinutes': durationMinutes,
+        'targetPercentage': targetPercentage,
+      };
 
   updateTicket(var value, int what) {
     switch (what) {

@@ -13,10 +13,11 @@ class AddCars extends CarsEvent {
   final int carPMaxDC;
   final int carEfficiency;
 
-  const AddCars(this.carName, this.carPMaxAC, this.carPMaxDC, this.carEfficiency);
+  const AddCars(
+      this.carName, this.carPMaxAC, this.carPMaxDC, this.carEfficiency);
 
   @override
-  List<Object> get props => [carName, carPMaxAC,carPMaxDC,carEfficiency];
+  List<Object> get props => [carName, carPMaxAC, carPMaxDC, carEfficiency];
 }
 
 class RemoveCars extends CarsEvent {

@@ -10,11 +10,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
-            builder: (context, orientation) =>
-                orientation == Orientation.portrait
-                    ? const PortraitHomeView()
-                    : const LandScapeHomeView()
-  );
+        builder: (context, orientation) => orientation == Orientation.portrait
+            ? const PortraitHomeView()
+            : const LandScapeHomeView());
   }
 }
 
@@ -100,11 +98,11 @@ class SendBookingRequest extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 primary: Colors.green, onPrimary: Colors.white),
-              child: const Text("Send request"),
-              onPressed: () => showDialog(
-            context: context,
-            builder: (context) => const AddDetailsDialog(),
-          ),
+            child: const Text("Send request"),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => const AddDetailsDialog(),
+            ),
           )
         ]),
       ),

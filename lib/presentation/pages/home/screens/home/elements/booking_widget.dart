@@ -67,10 +67,11 @@ class WithCarsWidget extends StatelessWidget {
                             items: stateOfCars.listOfCars
                                 .map<DropdownMenuItem<Car>>((Car value) {
                               return DropdownMenuItem<Car>(
-                                value: value,
-                                child: Text(
-                                    value.name + ' ' + value.name,)//todo: implement a readable list (not here, in the car page)
-                              );
+                                  value: value,
+                                  child: Text(
+                                    value.name + ' ' + value.name,
+                                  ) //todo: implement a readable list (not here, in the car page)
+                                  );
                             }).toList()),
                       ])),
               CarTicketCommon(state: state),
@@ -103,10 +104,10 @@ class BookingWithNocar extends StatelessWidget {
       {Key? key,
       required this.state,
       required this.carState,
-        required this.carNameController,
-        required this.carpMaxDCController,
-        required this.carpMaxACController,
-        required this.carEfficiencyController})
+      required this.carNameController,
+      required this.carpMaxDCController,
+      required this.carpMaxACController,
+      required this.carEfficiencyController})
       : super(key: key);
 
   @override
@@ -136,7 +137,8 @@ class BookingWithNocar extends StatelessWidget {
                                 padding: const EdgeInsets.all(20),
                                 child: AddCarDialog(
                                   carNameController: carNameController,
-                                  carEfficiencyController: carEfficiencyController,
+                                  carEfficiencyController:
+                                      carEfficiencyController,
                                   carpMaxACController: carpMaxACController,
                                   carpMaxDCController: carpMaxDCController,
                                 ),

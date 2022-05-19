@@ -28,5 +28,5 @@ class Car {
         'pMaxAC': pMaxAC,
         'pMaxDC': pMaxDC,
         'efficiency': efficiency,
-  };
+      };
 }
