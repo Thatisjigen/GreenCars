@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:open_location_picker/open_location_picker.dart' as OpenMap;
+import 'package:green_cars/blocs/shared/tickets/tickets_bloc.dart';
+import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({Key? key}) : super(key: key);
@@ -22,57 +23,48 @@ class _MapsScreenState extends State<MapsScreen> {
 
   Set<Marker> markersList = {};
 
-  var kGoogleApiKey = "MyapiKey";
-
   String location = "Search for a location"; //Not searched yet, diplay an hint
 
   @override
   Widget build(BuildContext context) {
-    updatePosition();
-
-    return Scaffold(
-      //todo:pass settings to the openmap api, fix the ui
-      body: Stack(children: [
-        GoogleMap(
-          initialCameraPosition: initialCameraPosition,
-          markers: markersList,
-          zoomControlsEnabled: false,
-          mapType: MapType.normal,
-          onMapCreated: (GoogleMapController controller) {
-            googleMapController = controller;
-          },
-        ),
-        Positioned(
-            //search input bar
-            bottom: 30,
+    return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state) {
+      return Scaffold(
+          body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: initialCameraPosition,
+            markers: markersList,
+            zoomControlsEnabled: true,
+            mapType: MapType.terrain,
+            onMapCreated: (GoogleMapController controller) {
+              googleMapController = controller;
+              updatePosition();
+            },
+          ),
+          Positioned(
+            top: 15,
             width: 300,
-            height: 50,
             left: 60,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  border: Border.all(
-                    color: Colors.green,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            )),
-        //search autocomplete input
-        Positioned(
-            //search input bar
-            bottom: 30,
-            width: 300,
-            height: 30,
-            left: 60,
-            child: OpenMap.OpenMapPicker(
-              decoration: const InputDecoration(
-                  hintText: "Click to select your location",
-                  iconColor: Colors.green),
-              onSaved: (OpenMap.FormattedLocation? newValue) {
-                /// save new value
+            child: MapBoxPlaceSearchWidget(
+              popOnSelect: false,
+              apiKey:
+                  "",
+              searchHint: "Where are you going?",
+              onSelected: (place) {
+                print(place.geometry.coordinates.toString());
+                context.read<TicketsBloc>().add(UpdateTicket(
+                    LatLng(place.geometry.coordinates.last,
+                        place.geometry.coordinates.first),
+                    4));
+                updateTargetView(LatLng(place.geometry.coordinates.last,
+                    place.geometry.coordinates.first));
               },
-            )),
-      ]),
-    );
+              context: context,
+            ),
+          )
+        ],
+      ));
+    });
   }
 
   void updatePosition() async {
@@ -116,5 +108,14 @@ class _MapsScreenState extends State<MapsScreen> {
     Position position = await Geolocator.getCurrentPosition();
 
     return position;
+  }
+
+  void updateTargetView(LatLng target) async {
+    googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: target, zoom: 14)));
+
+    markersList.add(Marker(
+        markerId: const MarkerId('Selected arrival point'), position: target));
+    setState(() {});
   }
 }

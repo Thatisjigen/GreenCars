@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:green_cars/data/models/car.dart';
 
 class Ticket {
@@ -5,7 +6,7 @@ class Ticket {
   Car car;
   int maxMeters;
   bool green;
-  double lat, lon;
+  LatLng latlon;
   int targetPercentage;
   int durationMinutes;
   // ignore: prefer_typing_uninitialized_variables
@@ -16,8 +17,7 @@ class Ticket {
       required this.car,
       required this.maxMeters,
       required this.green,
-      required this.lat,
-      required this.lon,
+      required this.latlon,
       required this.date,
       required this.durationMinutes,
       required this.targetPercentage});
@@ -28,8 +28,7 @@ class Ticket {
     car: Car(id: "-1", name: "default", pMaxAC: -1, pMaxDC: -1, efficiency: -1),
     maxMeters: 0,
     green: false,
-    lat: -1,
-    lon: -1,
+    latlon: const LatLng(-1, -1),
     date: DateTime.now(),
     durationMinutes: 10,
     targetPercentage: -1,
@@ -44,8 +43,7 @@ class Ticket {
         car = json['car'],
         maxMeters = json['maxMeter'],
         green = json['green'],
-        lat = json['lat'],
-        lon = json['lon'],
+        latlon = json['latlon'],
         date = json['date'],
         durationMinutes = json['durationMinutes'],
         targetPercentage = json['targetPercentage'];
@@ -55,8 +53,7 @@ class Ticket {
         'car': car,
         'maxMeters': maxMeters,
         'green': green,
-        'lat': lat,
-        'lon': lon,
+        'latlon': latlon,
         'durationMinutes': durationMinutes,
         'targetPercentage': targetPercentage,
       };
@@ -76,19 +73,16 @@ class Ticket {
         green = value;
         break;
       case (4):
-        lat = value;
+        latlon = value;
         break;
       case (5):
-        lon = value;
+        targetPercentage = value;
         break;
       case (7):
         date = value;
         break;
       case (8):
         durationMinutes = value;
-        break;
-      case (9):
-        targetPercentage = value;
         break;
       default:
         return;

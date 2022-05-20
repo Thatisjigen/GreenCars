@@ -12,7 +12,6 @@ class BookingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CarsBloc, CarsState>(builder: (context, carsState) {
-      print(context.toString());
       //CarState as a State
       if (carsState is CarsLoaded) {
         return WithCarsWidget(

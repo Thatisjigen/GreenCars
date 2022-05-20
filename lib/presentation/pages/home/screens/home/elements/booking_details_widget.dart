@@ -11,7 +11,6 @@ class AddDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("okOk");
     var ticket = BlocProvider.of<TicketsBloc>(context).state.ticket;
 
     return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state) {
@@ -43,7 +42,6 @@ class AddDetailsDialog extends StatelessWidget {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onDateSelected: (DateTime value) {
                   context.read<TicketsBloc>().add(UpdateTicket(value, 7));
-                  print(ticket.date.toDouble());
                 },
               ),
             ),
@@ -58,7 +56,6 @@ class AddDetailsDialog extends StatelessWidget {
               max: 180.0,
               onChanged: (value) => {
                 context.read<TicketsBloc>().add(UpdateTicket(value.toInt(), 8)),
-                print(ticket.durationMinutes.toDouble())
               },
               value: ticket.durationMinutes.toDouble(),
             ),
