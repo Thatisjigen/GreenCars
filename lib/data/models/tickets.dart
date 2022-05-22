@@ -30,7 +30,7 @@ class Ticket {
     green: false,
     latlon: const LatLng(-1, -1),
     date: DateTime.now(),
-    durationMinutes: 10,
+    durationMinutes: 15,
     targetPercentage: -1,
   );
 
@@ -95,6 +95,7 @@ class BookedTicket {
   final String date;
   final String id;
   final int duration;
+  final String address;
 
   BookedTicket({
     required this.id,
@@ -102,6 +103,7 @@ class BookedTicket {
     required this.lon,
     required this.date,
     required this.duration,
+    required this.address,
   });
 
   BookedTicket.fromJson(Map<String, dynamic> json)
@@ -109,7 +111,8 @@ class BookedTicket {
         lat = json['lat'],
         lon = json['lon'],
         date = json['date'],
-        duration = json['duration'];
+        duration = json['duration'],
+        address = json['address'];
 
   String get bookedtickets => date;
 
@@ -119,5 +122,6 @@ class BookedTicket {
         'lon': lon,
         'date': date,
         'duration': duration,
+        'address': address,
       };
 }

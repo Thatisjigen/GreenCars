@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:green_cars/blocs/shared/tickets/tickets_bloc.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 
 class MapsScreen extends StatefulWidget {
@@ -48,10 +47,9 @@ class _MapsScreenState extends State<MapsScreen> {
             child: MapBoxPlaceSearchWidget(
               popOnSelect: false,
               apiKey:
-                  "",
+                  "mapboxapikey",
               searchHint: "Where are you going?",
               onSelected: (place) {
-                print(place.geometry.coordinates.toString());
                 context.read<TicketsBloc>().add(UpdateTicket(
                     LatLng(place.geometry.coordinates.last,
                         place.geometry.coordinates.first),

@@ -6,9 +6,14 @@ class ValidTickets {
   List<BookedTicket> ticketList = [];
 
   List<BookedTicket> addTicket(
-      String date, double lat, double lon, int duration) {
+      String date, double lat, double lon, int duration, String address) {
     final ticket = BookedTicket(
-        id: uuid.v4(), date: date, lat: lat, lon: lon, duration: duration);
+        id: uuid.v4(),
+        date: date,
+        lat: lat,
+        lon: lon,
+        duration: duration,
+        address: address);
     ticketList.add(ticket);
     return ticketList;
   }
