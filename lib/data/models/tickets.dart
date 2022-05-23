@@ -25,13 +25,19 @@ class Ticket {
   static final Ticket _instance = Ticket._privateConstructor(
     //make it a singleton using a dumb instance with non valid values
     percentage: 0,
-    car: Car(id: "-1", name: "default", pMaxAC: -1, pMaxDC: -1, efficiency: -1),
+    car: Car(
+        id: "-1",
+        name: "default",
+        kwh: -1,
+        pMaxAC: -1,
+        pMaxDC: -1,
+        efficiency: -1),
     maxMeters: 0,
     green: false,
     latlon: const LatLng(-1, -1),
     date: DateTime.now(),
     durationMinutes: 15,
-    targetPercentage: -1,
+    targetPercentage: 100,
   );
 
   factory Ticket() {

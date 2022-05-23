@@ -74,8 +74,15 @@ public class getList {
                 }
                 if (valid) {//thecolum is free
                     if (car.hasDC()) {//DC has an higher priority
-                        int givenPWR = Integer.parseInt(candidate.getString("dcpwr")) * steps;
+                        int supportedpwr = 0;
+                        if (Integer.parseInt(candidate.getString("dcpwr"))>Integer.parseInt(request.dc_kwh))
+                            supportedpwr=Integer.parseInt(request.dc_kwh);
+                        else 
+                            supportedpwr=Integer.parseInt(candidate.getString("dcpwr"));
+                        int givenPWR = supportedpwr * steps;
                         finalSoC = givenPWR + Integer.parseInt(request.starting_kwh);
+                        if (finalSoC>Integer.parseInt(request.maxKwh))
+                            finalSoC=Integer.parseInt(request.maxKwh);
                         if (finalSoC > (Integer.parseInt(request.minSoC_kwh))) {
                             counter++;
                             ticket_element[counter] = new JSONObject();
@@ -91,8 +98,15 @@ public class getList {
                             ticket_list.add(ticket_element[counter]);
                         }
                     } else {//useAC
-                        int givenPWR = Integer.parseInt(candidate.getString("acpwr")) * steps;
+                        int supportedpwr = 0;
+                        if (Integer.parseInt(candidate.getString("acpwr"))>Integer.parseInt(request.ac_kwh))
+                            supportedpwr=Integer.parseInt(request.ac_kwh);
+                        else 
+                            supportedpwr=Integer.parseInt(candidate.getString("acpwr"));
+                        int givenPWR = supportedpwr * steps;
                         finalSoC = givenPWR + Integer.parseInt(request.starting_kwh);
+                        if (finalSoC>Integer.parseInt(request.maxKwh))
+                            finalSoC=Integer.parseInt(request.maxKwh);
                         if (finalSoC > (Integer.parseInt(request.minSoC_kwh))) {
                             counter++;
                             ticket_element[counter] = new JSONObject();

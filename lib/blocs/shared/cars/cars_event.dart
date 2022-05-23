@@ -9,15 +9,17 @@ abstract class CarsEvent extends Equatable {
 
 class AddCars extends CarsEvent {
   final String carName;
+  final int carkwh;
   final int carPMaxAC;
   final int carPMaxDC;
   final int carEfficiency;
 
-  const AddCars(
-      this.carName, this.carPMaxAC, this.carPMaxDC, this.carEfficiency);
+  const AddCars(this.carName, this.carkwh, this.carPMaxAC, this.carPMaxDC,
+      this.carEfficiency);
 
   @override
-  List<Object> get props => [carName, carPMaxAC, carPMaxDC, carEfficiency];
+  List<Object> get props =>
+      [carName, carkwh, carPMaxAC, carPMaxDC, carEfficiency];
 }
 
 class RemoveCars extends CarsEvent {

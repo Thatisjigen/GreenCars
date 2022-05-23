@@ -27,6 +27,7 @@ class BookingWidget extends StatelessWidget {
 class WithCarsWidget extends StatelessWidget {
   CarsLoaded stateOfCars;
   final _carNameController = TextEditingController();
+  final _carkwhController = TextEditingController();
   final _carpMaxDCController = TextEditingController();
   final _carpMaxACController = TextEditingController();
   final _carEfficiencyController = TextEditingController();
@@ -68,7 +69,10 @@ class WithCarsWidget extends StatelessWidget {
                               return DropdownMenuItem<Car>(
                                   value: value,
                                   child: Text(
-                                    value.name + ' ' + value.name,
+                                    value.name +
+                                        ' (' +
+                                        value.kwh.toString() +
+                                        "kwh)",
                                   ) //todo: implement a readable list (not here, in the car page)
                                   );
                             }).toList()),
@@ -84,6 +88,7 @@ class WithCarsWidget extends StatelessWidget {
             carEfficiencyController: _carEfficiencyController,
             carpMaxACController: _carpMaxACController,
             carpMaxDCController: _carpMaxDCController,
+            carkwhController: _carkwhController,
           ),
         );
       }
@@ -94,6 +99,7 @@ class WithCarsWidget extends StatelessWidget {
 class BookingWithNocar extends StatelessWidget {
   final CarsLoaded carState;
   final TextEditingController carNameController;
+  final TextEditingController carkwhController;
   final TextEditingController carpMaxDCController;
   final TextEditingController carpMaxACController;
   final TextEditingController carEfficiencyController;
@@ -104,6 +110,7 @@ class BookingWithNocar extends StatelessWidget {
       required this.state,
       required this.carState,
       required this.carNameController,
+      required this.carkwhController,
       required this.carpMaxDCController,
       required this.carpMaxACController,
       required this.carEfficiencyController})
@@ -140,6 +147,7 @@ class BookingWithNocar extends StatelessWidget {
                                       carEfficiencyController,
                                   carpMaxACController: carpMaxACController,
                                   carpMaxDCController: carpMaxDCController,
+                                  carkwhController: carkwhController,
                                 ),
                               )));
                     },

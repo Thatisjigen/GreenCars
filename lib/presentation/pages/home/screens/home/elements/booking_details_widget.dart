@@ -17,13 +17,13 @@ class AddDetailsDialog extends StatelessWidget {
     return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state) {
       return Dialog(
         elevation: 10,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 60),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: DateTimeFormField(
                 initialDate: DateTime.now(),
                 lastDate: convertDate(DateTime.now()),
@@ -48,25 +48,76 @@ class AddDetailsDialog extends StatelessWidget {
                 },
               ),
             ),
-            Slider(
-              activeColor: Colors.green,
-              inactiveColor: Colors.green.shade300,
-              thumbColor: Colors.green,
-              label: ticket.durationMinutes.toString(),
-              divisions: 11,
-              min: 15.0,
-              max: 180.0,
-              onChanged: (value) => {
-                context.read<TicketsBloc>().add(UpdateTicket(value.toInt(), 8)),
-              },
-              value: ticket.durationMinutes.toDouble(),
-            ),
+            Column(children: [
+              const Text(
+                "How much minutes do you wanna stay?",
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.2,
+              ),
+              Slider(
+                activeColor: Colors.green,
+                inactiveColor: Colors.green.shade300,
+                thumbColor: Colors.green,
+                label: ticket.durationMinutes.toString(),
+                divisions: 11,
+                min: 15.0,
+                max: 180.0,
+                onChanged: (value) => {
+                  context
+                      .read<TicketsBloc>()
+                      .add(UpdateTicket(value.toInt(), 8)),
+                },
+                value: ticket.durationMinutes.toDouble(),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text("15"),
+                      Text("180"),
+                    ],
+                  ))
+            ]),
+            Column(children: [
+              const Text(
+                "What's the min charge you are going to accept?",
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.2,
+              ),
+              Slider(
+                activeColor: Colors.green,
+                inactiveColor: Colors.green.shade300,
+                thumbColor: Colors.green,
+                label: ticket.targetPercentage.toString(),
+                divisions: (100.0 - (ticket.percentage - 1)).toInt(),
+                min: double.parse(ticket.percentage.toString()),
+                max: 100.0,
+                onChanged: (value) => {
+                  context
+                      .read<TicketsBloc>()
+                      .add(UpdateTicket(value.toInt(), 5)),
+                },
+                value: ticket.targetPercentage.toDouble(),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(ticket.percentage.toString()),
+                      const Text("100"),
+                    ],
+                  ))
+            ]),
             ElevatedButton(
                 onPressed: () => showDialog(
                       context: context,
                       builder: (context) => const AvailableColumnDialog(),
                     ),
-                child: const Text('Send request')) //todo: call web service
+                child: const Text('Send request'))
           ],
         ),
       );

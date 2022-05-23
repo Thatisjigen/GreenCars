@@ -12,22 +12,23 @@ import org.unicampania.greencars.TicketRequest;
 @Path("/searchColumn")
 public class ColumnsWebService {
 
-    @Path("{a}/{b}/{r}/{c}/{d}/{e}/{f}/{g}/{h}/{i}/{l}/{m}")
+    @Path("{a}/{b}/{r}/{c}/{d}/{e}/{f}/{g}/{h}/{i}/{l}/{m}/{n}")
     @GET
     @Produces("application/json")
     public Response GetMyJson(@PathParam("a") String lon, @PathParam("b") String lat, @PathParam("r") String radius, @PathParam("c") String green,
             @PathParam("d") String starting_kwh, @PathParam("e") String ac_kwh, @PathParam("f") String dc_kwh,
             @PathParam("g") String date, @PathParam("h") String time, @PathParam("i") String duration,
-            @PathParam("l") String minSoC_kwh, @PathParam("m") String reqSoC_kwh) throws IOException {
+            @PathParam("l") String minSoC_kwh, @PathParam("m") String reqSoC_kwh, @PathParam("n") String maxKwh) throws IOException {
 
-        TicketRequest ticket = new TicketRequest(lon, lat, green, starting_kwh, ac_kwh, dc_kwh, date, time, duration, minSoC_kwh, reqSoC_kwh, radius);
+        TicketRequest ticket = new TicketRequest(lon, lat, green, starting_kwh, ac_kwh, dc_kwh, date, time, duration, minSoC_kwh, reqSoC_kwh, radius, maxKwh);
         String result;
         result = getList.GetChargingPoints(ticket);
         return Response.status(200).entity(result).build();
     }
 
 }
+        
 
-//lon/lat/radius/green/starting_kwh/ac_kwh/dc_kwh/date/time/duration/minSoC_kwh/reqSoC_kwh
+//lon/lat/radius/green/starting_kwh/ac_kwh/dc_kwh/date/time/duration/minSoC_kwh/reqSoC_kwh/maxkwh
 //E.g: http://localhost:8888/green_cars-1.0-SNAPSHOT/ws/searchColumn with params:
-//14.324226/41.072692/2/0/1/1/1/2022-11-11/10:10/90/20/10/
+//14.324226/41.072692/2/0/1/1/1/2022-11-11/10:10/90/20/10/100

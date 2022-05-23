@@ -10,25 +10,41 @@ class CarsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _carNameController = TextEditingController();
+    final _carkwhController = TextEditingController();
     final _carpMaxACController = TextEditingController();
     final _carpMaxDCController = TextEditingController();
     final _carEfficiencyController = TextEditingController();
     return Center(
       child: Column(children: [
-        const CarsList(),
-        FloatingActionButton(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) => AddCarDialog(
-                      carNameController: _carNameController,
-                      carpMaxACController: _carpMaxACController,
-                      carpMaxDCController: _carpMaxDCController,
-                      carEfficiencyController: _carEfficiencyController,
-                    ));
-          },
-          child: const Icon(Icons.add),
+        const Expanded(
+          flex: 8,
+          child: CarsList(),
         ),
+        Expanded(
+          flex: 2,
+          child: Container(
+              alignment: Alignment.bottomCenter,
+              margin: const EdgeInsets.symmetric(vertical: 40),
+              child: FloatingActionButton(
+                elevation: 100,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => Center(
+                          child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(20),
+                              child: AddCarDialog(
+                                carNameController: _carNameController,
+                                carpMaxACController: _carpMaxACController,
+                                carpMaxDCController: _carpMaxDCController,
+                                carEfficiencyController:
+                                    _carEfficiencyController,
+                                carkwhController: _carkwhController,
+                              ))));
+                },
+                child: const Icon(Icons.add),
+              )),
+        )
       ]),
     );
   }
@@ -44,11 +60,12 @@ class CarsList extends StatelessWidget {
         if (state is CarsLoaded) {
           if (state.listOfCars.isEmpty) {
             return const Center(
-              child: Text("Add new Cars"),
+              child: Text("Add a car"),
             );
           } else {
-            return Expanded(
-              child: Column(mainAxisSize: MainAxisSize.max, children: [
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
                 Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,
@@ -57,7 +74,7 @@ class CarsList extends StatelessWidget {
                         return carItem(car: state.listOfCars[index]);
                       }),
                 )
-              ]),
+              ],
             );
           }
         }

@@ -10,17 +10,17 @@ class MapsScreen extends StatefulWidget {
   const MapsScreen({Key? key}) : super(key: key);
 
   @override
-  _MapsScreenState createState() => _MapsScreenState();
+  MapsScreenState createState() => MapsScreenState();
 }
 
-class _MapsScreenState extends State<MapsScreen> {
+class MapsScreenState extends State<MapsScreen> {
   late GoogleMapController googleMapController;
 
   static const CameraPosition initialCameraPosition = CameraPosition(
       target: LatLng(40.96921632485118, 14.207939852997029), zoom: 10);
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
-  Set<Marker> markersList = {};
+  static Set<Marker> markersList = {};
 
   String location = "Search for a location"; //Not searched yet, diplay an hint
 
@@ -115,5 +115,9 @@ class _MapsScreenState extends State<MapsScreen> {
     markersList.add(Marker(
         markerId: const MarkerId('Selected arrival point'), position: target));
     setState(() {});
+  }
+
+  static void addMarker(LatLng target, String id) async {
+    markersList.add(Marker(markerId: MarkerId(id), position: target));
   }
 }
