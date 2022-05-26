@@ -41,6 +41,11 @@ class WithCarsWidget extends StatelessWidget {
 
     return BlocBuilder<TicketsBloc, TicketsState>(builder: (context, state) {
       if (stateOfCars.listOfCars.isNotEmpty) {
+        if (state.ticket.car.id == -1) {
+          context
+              .read<TicketsBloc>()
+              .add(UpdateTicket(stateOfCars.listOfCars[0], 1));
+        } //init with the first car
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -55,9 +60,7 @@ class WithCarsWidget extends StatelessWidget {
                           textScaleFactor: 1.2,
                         ),
                         DropdownButton(
-                            value: selectedval == null
-                                ? stateOfCars.listOfCars[0]
-                                : state.ticket.car,
+                            value: selectedval,
                             onChanged: (value) {
                               selectedval = value as Car;
                               context

@@ -5,9 +5,16 @@ class JsonColumnModel {
   String? lon;
   String? id;
   String? lat;
+  String? chargingState;
 
   JsonColumnModel(
-      {this.address, this.finalSoC, this.price, this.lon, this.id, this.lat});
+      {this.address,
+      this.finalSoC,
+      this.price,
+      this.lon,
+      this.id,
+      this.lat,
+      this.chargingState});
 
   JsonColumnModel.fromJson(Map<String, dynamic> json) {
     address = json['address'];
@@ -16,6 +23,7 @@ class JsonColumnModel {
     lon = json['lon'];
     id = json['id'];
     lat = json['lat'];
+    chargingState = json['chargingState'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +34,7 @@ class JsonColumnModel {
     data['lon'] = lon;
     data['id'] = id;
     data['lat'] = lat;
+    data['chargingState'] = chargingState;
     return data;
   }
 }

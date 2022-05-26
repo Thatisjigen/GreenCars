@@ -96,11 +96,11 @@ class AddCarDialog extends StatelessWidget {
                 _validateKwh = (int.parse(carkwhController.text) > 9 &&
                     int.parse(carkwhController.text) < 201);
                 _validateAC = (int.parse(carpMaxACController.text) > 0 &&
-                    int.parse(carpMaxACController.text) < 50);
+                    int.parse(carpMaxACController.text) < 51);
                 _validateDC = (int.parse(carpMaxDCController.text) > 0 &&
-                    int.parse(carpMaxDCController.text) < 150);
+                    int.parse(carpMaxDCController.text) < 151);
                 _validateEff = (int.parse(carEfficiencyController.text) > 0 &&
-                    int.parse(carEfficiencyController.text) < 30);
+                    int.parse(carEfficiencyController.text) < 31);
                 if (_validateName &&
                     _validateKwh &&
                     _validateAC &&

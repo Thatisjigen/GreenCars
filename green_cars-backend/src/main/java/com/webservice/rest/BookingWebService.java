@@ -22,7 +22,9 @@ public class BookingWebService {
 
         String result;
         result = (String) Request.GetResponce(request);
-        return Response.status(200).entity(result).build();
+        if(result.equals("ok"))
+            return Response.status(200).entity(result).build();
+        return Response.status(202).entity(result).build();
     }
 
 }

@@ -14,6 +14,9 @@ import org.json.simple.JSONObject;
 public class getList {
 
     private static boolean valid;
+    private static int supportedpwr;
+    private static int givenPWR;
+    private static int finalSoCpercent;
 
     public static String GetChargingPoints(TicketRequest request)
             throws IOException, NoSuchElementException {
@@ -24,7 +27,7 @@ public class getList {
         String lat;
         String lon;
         String price;
-        int finalSoC;
+        int finalSoC = 0;
         Car car = new Car(request.ac_kwh, request.dc_kwh);
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -50,7 +53,7 @@ public class getList {
             sql.setString(4, request.radius);
             ResultSet candidate = sql.executeQuery();
             int steps = Integer.parseInt(request.duration) / 15;
-
+            
             while (candidate.next()) {
                 valid = true;
                 for (int step = 0; step < steps; step++) {
@@ -74,51 +77,79 @@ public class getList {
                 }
                 if (valid) {//thecolum is free
                     if (car.hasDC()) {//DC has an higher priority
-                        int supportedpwr = 0;
+                        supportedpwr = 0;
                         if (Integer.parseInt(candidate.getString("dcpwr"))>Integer.parseInt(request.dc_kwh))
                             supportedpwr=Integer.parseInt(request.dc_kwh);
                         else 
                             supportedpwr=Integer.parseInt(candidate.getString("dcpwr"));
-                        int givenPWR = supportedpwr * steps;
+                        givenPWR = (supportedpwr/4)*steps;//power is per hour, store the power erogated
                         finalSoC = givenPWR + Integer.parseInt(request.starting_kwh);
                         if (finalSoC>Integer.parseInt(request.maxKwh))
                             finalSoC=Integer.parseInt(request.maxKwh);
-                        if (finalSoC > (Integer.parseInt(request.minSoC_kwh))) {
+                        if (finalSoC >= (Integer.parseInt(request.minSoC_kwh))) {
                             counter++;
                             ticket_element[counter] = new JSONObject();
                             lat = candidate.getString("lat");
                             lon = candidate.getString("lon");
                             price = Integer.toString(steps * Integer.parseInt(candidate.getString("pricedc")));
+                            String chargingString = "";
+                            int chargingState[]= new int[steps];
+                            int chargedKwh=Integer.parseInt(request.starting_kwh);
+                            for (int step = 0; step < steps; step++) {
+                                chargedKwh=chargedKwh+supportedpwr/4;
+                                chargingState[step]=(chargedKwh*100)/Integer.parseInt(request.maxKwh);
+                                chargingState[step]=chargingState[step]>=100 ? 100 : chargingState[step]; //coherce to 100
+                                if (step!=0)
+                                chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
+                                else 
+                                chargingString=Integer.toString(chargingState[step]);
+                            }
+                            finalSoCpercent=chargingState[steps-1];
                             ticket_element[counter].put("lat", lat);
                             ticket_element[counter].put("lon", lon);
                             ticket_element[counter].put("price", price);
-                            ticket_element[counter].put("finalSoC", finalSoC);
+                            ticket_element[counter].put("finalSoC", finalSoCpercent);
                             ticket_element[counter].put("id", candidate.getString("id"));
                             ticket_element[counter].put("address", candidate.getString("address"));
+                            ticket_element[counter].put("chargingState",chargingString);
                             ticket_list.add(ticket_element[counter]);
                         }
                     } else {//useAC
-                        int supportedpwr = 0;
+                        supportedpwr = 0;
                         if (Integer.parseInt(candidate.getString("acpwr"))>Integer.parseInt(request.ac_kwh))
                             supportedpwr=Integer.parseInt(request.ac_kwh);
                         else 
                             supportedpwr=Integer.parseInt(candidate.getString("acpwr"));
-                        int givenPWR = supportedpwr * steps;
+                        givenPWR = (supportedpwr/4)*steps;//power is per hour
                         finalSoC = givenPWR + Integer.parseInt(request.starting_kwh);
                         if (finalSoC>Integer.parseInt(request.maxKwh))
                             finalSoC=Integer.parseInt(request.maxKwh);
-                        if (finalSoC > (Integer.parseInt(request.minSoC_kwh))) {
+                        if (finalSoC >= (Integer.parseInt(request.minSoC_kwh))) {
                             counter++;
                             ticket_element[counter] = new JSONObject();
-                            lat = candidate.getString("lon");
+                            lat = candidate.getString("lat");
                             lon = candidate.getString("lon");
                             price = Integer.toString(steps * Integer.parseInt(candidate.getString("priceac")));
+                            String chargingString = "";
+                            int chargingState[]= new int[steps];
+                            int chargedKwh=Integer.parseInt(request.starting_kwh);
+                            for (int step = 0; step < steps; step++) {
+                                chargedKwh=chargedKwh+supportedpwr/4;
+                                chargingState[step]=(chargedKwh*100)/Integer.parseInt(request.maxKwh);
+                                chargingState[step]=chargingState[step]>=100 ? 100 : chargingState[step]; //coherce to 100
+                                if (step!=0)
+                                chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
+                                else 
+                                chargingString=Integer.toString(chargingState[step]);
+                            }
+                            finalSoCpercent=chargingState[steps-1];
                             ticket_element[counter].put("lat", lat);
                             ticket_element[counter].put("lon", lon);
                             ticket_element[counter].put("price", price);
-                            ticket_element[counter].put("finalSoC", Integer.toString(finalSoC));
+                            ticket_element[counter].put("finalSoC", finalSoCpercent);
                             ticket_element[counter].put("id", candidate.getString("id"));
                             ticket_element[counter].put("address", candidate.getString("address"));
+                            ticket_element[counter].put("chargingState",chargingString);
                             ticket_list.add(ticket_element[counter]);
                         }
                     }

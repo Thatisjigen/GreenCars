@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_cars/blocs/home/nav/states.dart';
 import 'package:green_cars/presentation/pages/home/screens/cars/profilescreen.dart';
 import 'package:green_cars/presentation/pages/home/screens/home/homescreen.dart';
+import 'package:green_cars/presentation/pages/home/screens/tickets/ticketsscreen.dart';
 
 import '../../blocs/home/nav/navigation_cubit.dart';
 import 'home/elements/bars_and_drawers.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
           if (state.navbarItem == NavbarItem.home) {
             return const HomeScreen();
           } else if (state.navbarItem == NavbarItem.settings) {
-            return const Text("ok"); //SettingsScreen();
+            return const TicketsView();
           } else if (state.navbarItem == NavbarItem.profile) {
             return const CarsHome();
           }

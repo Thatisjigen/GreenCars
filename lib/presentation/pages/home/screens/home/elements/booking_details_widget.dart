@@ -26,13 +26,15 @@ class AddDetailsDialog extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: DateTimeFormField(
                 initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
                 lastDate: convertDate(DateTime.now()),
                 decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(37, 15, 0, 15),
                   filled: true,
                   fillColor: Colors.green,
                   hintStyle: const TextStyle(color: Colors.white70),
                   errorStyle: const TextStyle(color: Colors.redAccent),
-                  hintText: '  Select your arrival time',
+                  hintText: 'Select your arrival time',
                   isDense: true,
                   //border: InputBorder.none,
                   border: OutlineInputBorder(
@@ -92,7 +94,7 @@ class AddDetailsDialog extends StatelessWidget {
                 thumbColor: Colors.green,
                 label: ticket.targetPercentage.toString(),
                 divisions: (100.0 - (ticket.percentage - 1)).toInt(),
-                min: double.parse(ticket.percentage.toString()),
+                min: double.parse(ticket.percentage.toString()) + 1,
                 max: 100.0,
                 onChanged: (value) => {
                   context
@@ -112,12 +114,30 @@ class AddDetailsDialog extends StatelessWidget {
                     ],
                   ))
             ]),
-            ElevatedButton(
-                onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => const AvailableColumnDialog(),
-                    ),
-                child: const Text('Send request'))
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(context);
+                },
+                child: const Text("Back"),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    if (!ticket.date.isBefore(DateTime.now())) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const AvailableColumnDialog(),
+                      );
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const InvalidSecondStageRequest();
+                          });
+                    }
+                  },
+                  child: const Text('Look for columns')),
+            ])
           ],
         ),
       );
@@ -168,4 +188,33 @@ class AddDetailsDialog extends StatelessWidget {
       datetime.add(const Duration(days: 60)).year,
       datetime.add(const Duration(days: 60)).month,
       datetime.add(const Duration(days: 60)).day);
+}
+
+class InvalidSecondStageRequest extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
+  const InvalidSecondStageRequest();
+  @override
+  Widget build(BuildContext context) {
+    String error = "Please, select a date";
+    return Dialog(
+        elevation: 10,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 400),
+        child: Center(
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                error,
+                textScaleFactor: 1.2,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(context);
+              },
+              child: const Text("Back"),
+            ),
+          ]),
+        ));
+  }
 }
