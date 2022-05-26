@@ -9,8 +9,11 @@ class TicketRepository {
   List<BookedTicket> addTicket(JsonColumnModel column, DateTime date) {
     final BookedTicket e = BookedTicket(
       id: uuid.v4(),
-      column: column,
+      address: column.address!,
       date: date.toString(),
+      leavingSoC: column.finalSoC!.toString(),
+      price: column.price.toString(),
+      chargingState: column.chargingState!,
     );
     ticketList.add(e);
     return ticketList;

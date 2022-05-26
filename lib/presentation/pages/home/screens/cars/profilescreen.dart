@@ -84,11 +84,68 @@ class CarsList extends StatelessWidget {
   }
 
   Widget carItem({required Car car}) {
-    return Row(
-      children: [
-        Text(car.name),
-        Text(car.pMaxAC.toString()),
-      ],
-    );
+    return BlocBuilder<CarsBloc, CarsState>(builder: (context, state) {
+      return Card(
+          shadowColor: Colors.green,
+          elevation: 15,
+          margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            car.name,
+                            textScaleFactor: 1.3,
+                          ),
+                          Text(
+                            "kWh : " + car.kwh.toString(),
+                            textScaleFactor: 1.3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "DC power: " + car.pMaxDC.toString(),
+                            textScaleFactor: 1.3,
+                          ),
+                          Text(
+                            "AC power: " + car.pMaxDC.toString(),
+                            textScaleFactor: 1.3,
+                          ),
+                          Text(
+                            "Efficiency: " + car.efficiency.toString(),
+                            textScaleFactor: 1.3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {}, child: const Text("Edit")),
+                        ElevatedButton(
+                            onPressed: () {
+                              context.read<CarsBloc>().add(RemoveCars(car.id));
+                            },
+                            child: const Text("Remove")),
+                      ],
+                    )
+                  ])),
+            ],
+          ));
+    });
   }
 }

@@ -15,3 +15,10 @@ class UpdateTicket extends TicketsEvent {
   @override
   List<Object> get props => [value];
 }
+
+class RestoreTicket extends TicketsEvent {
+  const RestoreTicket();
+
+  @override
+  List<Object> get props => [];
+}

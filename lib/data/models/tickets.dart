@@ -1,6 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:green_cars/data/models/car.dart';
-import 'package:green_cars/data/models/columns.dart';
 
 class Ticket {
   int percentage;
@@ -99,25 +98,37 @@ class Ticket {
 
 class BookedTicket {
   final String date;
-  final JsonColumnModel column;
   String id;
+  String address;
+  String leavingSoC;
+  String price;
+  String chargingState;
 
   BookedTicket({
     required this.date,
-    required this.column,
+    required this.address,
     required this.id,
+    required this.leavingSoC,
+    required this.price,
+    required this.chargingState,
   });
 
   BookedTicket.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         date = json['date'],
-        column = json['column'];
+        address = json['address'],
+        leavingSoC = json['leavingSoC'],
+        price = json['price'],
+        chargingState = json['chargingState'];
 
-  String get ticket => column.address!;
+  String get ticket => address;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'date': date,
-        'column': column,
+        'address': address,
+        'leavingSoC': leavingSoC,
+        'price': price,
+        'chargingState': chargingState,
       };
 }

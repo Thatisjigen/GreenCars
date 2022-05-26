@@ -13,5 +13,10 @@ class TicketsBloc extends Bloc<TicketsEvent, TicketsState> {
       ticket.updateTicket(event.value, event.what);
       emit(TicketsUpdated(ticket));
     });
+    on<RestoreTicket>((event, emit) async {
+      emit(TicketRefreshing(ticket));
+      Ticket ticketVoid = Ticket();
+      emit(TicketsInitial(ticketVoid));
+    });
   }
 }

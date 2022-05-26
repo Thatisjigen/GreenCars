@@ -5,8 +5,17 @@ import 'package:green_cars/blocs/home/nav/states.dart';
 
 PreferredSizeWidget homeAppbar({required Text title}) {
   return AppBar(
+    centerTitle: true,
     surfaceTintColor: Colors.white70,
     elevation: 30,
+    leading: const Padding(
+      padding: EdgeInsets.only(left: 140),
+      child: Icon(
+        Icons.energy_savings_leaf,
+        size: 35,
+        color: Colors.green,
+      ),
+    ),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
           bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
@@ -14,7 +23,17 @@ PreferredSizeWidget homeAppbar({required Text title}) {
     toolbarHeight: 60,
     foregroundColor: Colors.black,
     backgroundColor: Colors.white70,
-    title: title,
+    title: BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+      if (state.navbarItem == NavbarItem.home) {
+        return const Text("Home");
+      } else if (state.navbarItem == NavbarItem.settings) {
+        return const Text("Tickets");
+      } else if (state.navbarItem == NavbarItem.profile) {
+        return const Text("Cars");
+      }
+      return const Text("");
+    }),
   );
 }
 
@@ -55,15 +74,15 @@ Widget get bottomNavigationBar {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.settings,
+                      Icons.book_online,
                     ),
-                    label: 'Settings',
+                    label: 'Tickets',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.person,
+                      Icons.directions_car_filled,
                     ),
-                    label: 'Profile',
+                    label: 'Cars',
                   ),
                 ],
                 onTap: (index) {

@@ -99,10 +99,12 @@ public class getList {
                                 chargedKwh=chargedKwh+supportedpwr/4;
                                 chargingState[step]=(chargedKwh*100)/Integer.parseInt(request.maxKwh);
                                 chargingState[step]=chargingState[step]>=100 ? 100 : chargingState[step]; //coherce to 100
-                                if (step!=0)
-                                chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
-                                else 
-                                chargingString=Integer.toString(chargingState[step]);
+                                if (step>0){
+                                    chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
+                                } else {
+                                    int startingPWR=(Integer.parseInt(request.starting_kwh)*100)/Integer.parseInt(request.maxKwh);
+                                    chargingString=startingPWR+"T"+Integer.toString(chargingState[step]);
+                                }
                             }
                             finalSoCpercent=chargingState[steps-1];
                             ticket_element[counter].put("lat", lat);
@@ -137,10 +139,12 @@ public class getList {
                                 chargedKwh=chargedKwh+supportedpwr/4;
                                 chargingState[step]=(chargedKwh*100)/Integer.parseInt(request.maxKwh);
                                 chargingState[step]=chargingState[step]>=100 ? 100 : chargingState[step]; //coherce to 100
-                                if (step!=0)
-                                chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
-                                else 
-                                chargingString=Integer.toString(chargingState[step]);
+                                if (step>0){
+                                    chargingString=chargingString+"T"+Integer.toString(chargingState[step]);
+                                } else {
+                                    int startingPWR=(Integer.parseInt(request.starting_kwh)*100)/Integer.parseInt(request.maxKwh);
+                                    chargingString=startingPWR+"T"+Integer.toString(chargingState[step]);
+                                }
                             }
                             finalSoCpercent=chargingState[steps-1];
                             ticket_element[counter].put("lat", lat);

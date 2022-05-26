@@ -15,7 +15,7 @@ class TicketsView extends StatefulWidget {
 
 class TicketsViewState extends State<TicketsView> {
   TicketsViewState({Key? key});
-  bool isExpanded = false;
+  List<ExpandedColumnsState> isExpanded = [];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ValidTicketBloc, ValidTicketState>(
@@ -29,15 +29,24 @@ class TicketsViewState extends State<TicketsView> {
           return Align(
               alignment: Alignment.topCenter,
               child: SingleChildScrollView(
+                  physics: const ScrollPhysics(),
                   child: Column(children: [
-                const Text("Your tickets: "),
-                Align(
-                    alignment: Alignment.topCenter,
-                    child: _columnListView(
-                      context,
-                      list: state.listOfTicket,
-                    ))
-              ])));
+                    const Padding(
+                      padding: EdgeInsets.only(top: 25),
+                      child: Text(
+                        "Your tickets: ",
+                        textScaleFactor: 1.3,
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.topCenter,
+                        child: SingleChildScrollView(
+                            physics: const ScrollPhysics(),
+                            child: _columnListView(
+                              context,
+                              list: state.listOfTicket,
+                            )))
+                  ])));
         }
       }
       return const Center(
@@ -48,36 +57,46 @@ class TicketsViewState extends State<TicketsView> {
 
   Widget _columnListView(BuildContext context,
       {required List<BookedTicket> list}) {
+    ScrollController _controller = ScrollController();
+
     for (var element in list) {
       if (DateTime.parse(element.date).isBefore(DateTime.now())) {
         context.read<ValidTicketBloc>().add(RemoveTickets(element.id));
       }
+      isExpanded.add(ExpandedColumnsState(
+        expanded: false,
+        uuid: element.id,
+      ));
     }
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return ticketItem(ticket: list[index]);
-        });
+    return SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _controller,
+            shrinkWrap: true,
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              return ticketItem(ticket: list[index]);
+            }));
   }
 
   Widget ticketItem({required BookedTicket ticket}) {
     return InkWell(
         onTap: () {
-          setState(() {
-            isExpanded = !isExpanded;
-          });
+          final tile = isExpanded.firstWhere((item) => item.uuid == ticket.id);
+          setState(() => tile.expanded = tile.expanded == true ? false : true);
         },
         child: ExpandableCardContainer(
           collapsedChild: ticketValidCollapsed(ticket),
           expandedChild: ticketValidExpanded(ticket),
-          isExpanded: isExpanded,
+          isExpanded:
+              isExpanded.firstWhere((item) => item.uuid == ticket.id).expanded,
         ));
   }
 
   Widget ticketValidExpanded(BookedTicket ticket) {
     final List<ChartElement> data = [];
-    String unifiedState = ticket.column.chargingState!;
+    String unifiedState = ticket.chargingState;
     var chargepointValues = unifiedState.split('T');
     Color chargecolor;
     for (int i = 0; i < chargepointValues.length; i++) {
@@ -95,7 +114,13 @@ class TicketsViewState extends State<TicketsView> {
               barColor: charts.ColorUtil.fromDartColor(chargecolor),
               chargePercent: int.parse(chargepointValues[i])));
     }
-
+    DateTime datetime = DateTime.parse(ticket.date);
+    String date = datetime.day.toString() +
+        "/" +
+        datetime.month.toString() +
+        "/" +
+        datetime.year.toString();
+    String hour = datetime.hour.toString() + ":" + datetime.minute.toString();
     return Card(
         shadowColor: Colors.white70,
         elevation: 15,
@@ -103,20 +128,49 @@ class TicketsViewState extends State<TicketsView> {
         child: Column(
           children: [
             Column(children: [
-              Text(ticket.column.address!),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("Price: " + ticket.column.price! + "€"),
-                  Text("Leaving SoC: " +
-                      ticket.column.finalSoC!.toInt().toString() +
-                      "%")
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  ticket.address,
+                  textScaleFactor: 1.3,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Price: " + ticket.price + "€",
+                      textScaleFactor: 1.3,
+                    ),
+                    Text(
+                      "Leaving SoC: " + ticket.leavingSoC + "%",
+                      textScaleFactor: 1.3,
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 330,
                 child: ChargeChart(
                   data: data,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      date,
+                      textScaleFactor: 1.3,
+                    ),
+                    Text(
+                      hour,
+                      textScaleFactor: 1.3,
+                    )
+                  ],
                 ),
               ),
             ]),
@@ -140,7 +194,13 @@ class TicketsViewState extends State<TicketsView> {
         child: SizedBox(
           height: 100,
           child: Column(children: [
-            Text(ticket.column.address!),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                ticket.address,
+                textScaleFactor: 1.3,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -157,4 +217,10 @@ class TicketsViewState extends State<TicketsView> {
           ]),
         ));
   }
+}
+
+class ExpandedColumnsState {
+  bool expanded;
+  String uuid;
+  ExpandedColumnsState({required this.expanded, required this.uuid});
 }

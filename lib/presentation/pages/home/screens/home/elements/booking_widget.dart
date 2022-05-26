@@ -244,7 +244,7 @@ class CarTicketCommon extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           const Expanded(
               child: Text(
-            "Being 'Green' let you pay less but walk more. Enable to be green",
+            "Being 'Green' let you pay less but usually walk more. Enable to be green",
             textScaleFactor: 1.2,
           )),
           Switch(

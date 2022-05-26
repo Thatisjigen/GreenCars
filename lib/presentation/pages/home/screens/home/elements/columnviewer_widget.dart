@@ -11,6 +11,7 @@ import 'package:green_cars/presentation/pages/home/elements/charge_chart.dart';
 import 'package:green_cars/presentation/pages/home/screens/home/elements/maps/maps.dart';
 import 'package:green_cars/presentation/pages/home/screens/sharedelements/expandable_card.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:green_cars/presentation/pages/home/screens/tickets/ticketsscreen.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -26,7 +27,7 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
   AvailableColumnDialogState({
     Key? key,
   });
-  bool isExpanded = false;
+  final List<ExpandedColumnsState> _isExpanded = [];
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,12 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
                         child: const Text("Back")))
               ]));
         } else if (snapshot.hasData) {
+          for (var element in snapshot.data!) {
+            _isExpanded.add(ExpandedColumnsState(
+              expanded: false,
+              uuid: element.id!,
+            ));
+          }
           return Center(
               child: Column(children: [
             SizedBox(
@@ -120,7 +127,8 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
         });
   }
 
-  Widget columnItem({required JsonColumnModel chargepoint, required ticket}) {
+  Widget columnItem(
+      {required JsonColumnModel chargepoint, required Ticket ticket}) {
     double finalSoCpercent = chargepoint.finalSoC!.toDouble();
     LatLng target =
         LatLng(double.parse(chargepoint.lat!), double.parse(chargepoint.lon!));
@@ -128,14 +136,19 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
     return InkWell(
         onTap: () {
           setState(() {
-            isExpanded = !isExpanded;
+            final tile =
+                _isExpanded.firstWhere((item) => item.uuid == chargepoint.id);
+            setState(
+                () => tile.expanded = tile.expanded == true ? false : true);
           });
         },
         child: ExpandableCardContainer(
           collapsedChild: ticketOfferCollapsed(finalSoCpercent, chargepoint),
           expandedChild:
               ticketOfferExpanded(finalSoCpercent, chargepoint, ticket.date),
-          isExpanded: isExpanded,
+          isExpanded: _isExpanded
+              .firstWhere((item) => item.uuid == chargepoint.id)
+              .expanded,
         ));
   }
 
@@ -185,7 +198,7 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
             "/" +
             ticket.car.kwh.toString() +
             "/" +
-            ticket.car.kwh.toString(); //
+            ticket.car.kwh.toString();
     return request;
   }
 
@@ -282,8 +295,33 @@ class AvailableColumnDialogState extends State<AvailableColumnDialog> {
                   context
                       .read<ValidTicketBloc>()
                       .add(AddTicket(chargepoint, datetime));
-                  Navigator.of(context).pop(context);
-                  Navigator.of(context).pop(context);
+                  context.read<TicketsBloc>().add(const RestoreTicket());
+                  showDialog(
+                      context: context,
+                      builder: (context) => Center(
+                              child: SingleChildScrollView(
+                            padding: const EdgeInsets.all(20),
+                            child: Dialog(
+                                child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
+                                  child: Text(
+                                    "Your booking request is accepted. You'll find your ticket resume in the ticket page.",
+                                    textScaleFactor: 1.3,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Ok")),
+                              ],
+                            )),
+                          )));
                 }
               },
               child: const Text('Send request')),

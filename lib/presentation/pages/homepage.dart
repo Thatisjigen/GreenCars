@@ -16,10 +16,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String title = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer,
       appBar: homeAppbar(title: const Text("GreenCars")),
       body: Center(
         child: BlocBuilder<NavigationCubit, NavigationState>(

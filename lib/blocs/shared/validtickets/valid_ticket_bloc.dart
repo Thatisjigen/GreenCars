@@ -41,7 +41,6 @@ class ValidTicketBloc extends HydratedBloc<ValidTicketEvent, ValidTicketState> {
   @override
   Map<String, dynamic>? toJson(ValidTicketState state) {
     if (state is TicketsLoaded) {
-      print(state.toJson().toString());
       return state.toJson();
     } else {
       return null;
